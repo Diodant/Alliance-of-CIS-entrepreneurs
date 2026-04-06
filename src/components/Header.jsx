@@ -131,7 +131,8 @@ const Header = () => {
 	
 	
 			</dl></div></div></li>		 */}
-					<li class="nav-item"><a href="/members" class="root-item">Члены Ассоциации</a></li>		
+					<li class="nav-item"><a href="/members" class="root-item">Члены Ассоциации</a></li>
+					<li class="nav-item"><a href="/committee" class="root-item">Комитет по приему в Члены Ассоциации</a></li>				
 					<li class="nav-item"><a href="/charter" class="root-item">Устав</a></li>		
 					<li class="nav-item"><a href="/ethical" class="root-item">Этический кодекс</a></li>		
 					<li class="nav-item"><a href="/executive-committee" class="root-item">Комитеты</a>

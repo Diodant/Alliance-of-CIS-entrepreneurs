@@ -1,11 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import Header from './components/Header';
 import MainPage from './components/MainPage';
 import CharterPage from './components/CharterPage';
 import Ethical from './components/Ethical';
 import Members from './components/Members';
 import About from './components/About';
+import CommitteeMembers from './components/CommitteeMembers';
 import Executive_Committee from './components/Committee/Executive_Committee';
 import Legal_Committee from './components/Committee/Legal_Committee';
 import Quality_of_Life_Committee from './components/Committee/Quality_of_Life_Committee';
@@ -39,6 +41,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 function App() {
   return (
+      <HelmetProvider>
         <Router>
         <div className="App">
         <Header />
@@ -48,6 +51,7 @@ function App() {
           <Route path="/charter" element={<CharterPage  />} />
           <Route path="/members" element={<Members />} />
           <Route path="/ethical" element={<Ethical />} />
+          <Route path="/committee" element={<CommitteeMembers />} />
           <Route path="/executive-committee" element={<Executive_Committee />} />
           <Route path="/legal-committee" element={<Legal_Committee />} />
           <Route path="/finance_committee" element={<Finance_Committee />} />
@@ -60,6 +64,7 @@ function App() {
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/articles" element={<ArticlesList />} />
           <Route path="/articles/:id" element={<Article />} />
+          
             {/* 
             
             
@@ -77,6 +82,7 @@ function App() {
           <Footer  />
         </div>
       </Router>
+      </HelmetProvider>
   );
 }
 

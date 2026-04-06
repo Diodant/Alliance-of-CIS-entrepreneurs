@@ -17,7 +17,9 @@ const ArticlesList = () => {
       <div className="news _catalog">
         {articlesData.map((article, index) => (
           <div key={index} className="news__item news__catalog-item">
+            <div className="news-image-wrapper">
             <img src={article.image} alt={article.title} className="news-image" />
+            </div>
             <div className="article-info">
             
             <Link className='news__item-title-wrap link _gray' to={`/articles/${article.id}`}>
