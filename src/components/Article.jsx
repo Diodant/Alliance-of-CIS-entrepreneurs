@@ -44,19 +44,14 @@ const Article = () => {
         .replace(/\bVADIM\b/g, 'VADYM')
         .replace(/\bNataliia Chernousova's\b/g, "Nataliia Chernousova's")
         .replace(/\bNATALIIA CHERNOUSOVA'S\b/g, "NATALIIA CHERNOUSOVA'S")
-
         .replace(/\bNatalia Chernousova\b/g, 'Nataliia Chernousova')
         .replace(/\bNATALIA CHERNOUSOVA\b/g, 'NATALIIA CHERNOUSOVA')
-
         .replace(/\bNatalya Chernousova\b/g, 'Nataliia Chernousova')
         .replace(/\bNATALYA CHERNOUSOVA\b/g, 'NATALIIA CHERNOUSOVA')
-
         .replace(/\bNataliya Chernousova\b/g, 'Nataliia Chernousova')
         .replace(/\bNATALIYA CHERNOUSOVA\b/g, 'NATALIIA CHERNOUSOVA')
-
         .replace(/\bNatalia\b/g, 'Nataliia')
         .replace(/\bNATALIA\b/g, 'NATALIIA')
-
         .replace(/\bNatalya\b/g, 'Nataliia')
         .replace(/\bNATALYA\b/g, 'NATALIIA');
     }
@@ -93,10 +88,10 @@ const Article = () => {
             }
 
             if (
-            node.nodeValue.indexOf('Vadim') === -1 &&
-            node.nodeValue.indexOf('VADIM') === -1 &&
-            node.nodeValue.indexOf('Natal') === -1 &&
-            node.nodeValue.indexOf('NATAL') === -1
+              node.nodeValue.indexOf('Vadim') === -1 &&
+              node.nodeValue.indexOf('VADIM') === -1 &&
+              node.nodeValue.indexOf('Natal') === -1 &&
+              node.nodeValue.indexOf('NATAL') === -1
             ) {
               return NodeFilter.FILTER_REJECT;
             }
@@ -247,7 +242,7 @@ const Article = () => {
   }, []);
 
   const { id } = useParams();
-  const article = articlesData.find((article) => article.id === parseInt(id, 10));
+  const article = articlesData.find((item) => item.id === parseInt(id, 10));
 
   if (!article) {
     return <div>Article not found</div>;
@@ -255,107 +250,34 @@ const Article = () => {
 
   const siteUrl = `https://alliancecisentrepreneurs.com/articles/${article.id}`;
 
-  const seoTitle = article.seoTitle
-    || (article.id === 12
-      ? 'Вадим Пренко (Vadym Prenko) — разговор о патенте, который меняет антифрод-индустрию'
-      : article.title);
+  const seoTitle = article.seoTitle || article.title;
+  const seoDescription = article.seoDescription || article.text;
+  const seoKeywords = article.seoKeywords || `${article.title}, ${article.autor}`;
+  const canonical = article.canonical || siteUrl;
 
-  const seoDescription = article.seoDescription
-    || (article.id === 12
-      ? 'Интервью с Вадимом Пренко (Vadym Prenko) о патенте, прогнозной аналитике, антифрод-технологиях и внедрении решений в банковскую инфраструктуру.'
-      : article.text);
+  const ogTitle = article.ogTitle || seoTitle;
+  const ogDescription = article.ogDescription || seoDescription;
+  const ogImage = article.ogImage || article.cover || article.authorImage || article.image;
 
-  const seoKeywords = article.seoKeywords
-    || (article.id === 12
-      ? 'Вадим Пренко, Vadym Prenko, антифрод, прогнозная аналитика, fintech, fraud prevention, банковская безопасность'
-      : `${article.title}, ${article.autor}`);
+  const twitterTitle = article.twitterTitle || seoTitle;
+  const twitterDescription = article.twitterDescription || seoDescription;
+  const twitterImage = article.twitterImage || ogImage;
 
-  const structuredData =
-    article.id === 12
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'NewsArticle',
-          headline: article.title,
-          alternativeHeadline:
-            'Vadym Prenko on predictive analytics and fraud prevention technologies',
-          description: seoDescription,
-          datePublished: '2023-04-14',
-          dateModified: '2023-04-14',
-          author: {
-            '@type': 'Person',
-            name: article.autor,
-          },
-          mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': siteUrl,
-          },
-          image: article.cover ? [article.cover] : [],
-          mentions: [
-            {
-              '@type': 'Person',
-              name: 'Vadym Prenko',
-              alternateName: 'Вадим Пренко',
-              description:
-                'Предприниматель и разработчик в сфере финансовых технологий, автор решений в области антифрод-систем и прогнозной аналитики.',
-            },
-          ],
-        }
-      : article.id === 13
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'NewsArticle',
-          headline: article.title,
-          alternativeHeadline:
-            'The influence of Vadym Prenko’s patent on modern anti-fraud models',
-          description: seoDescription,
-          datePublished: '2024-04-12',
-          dateModified: '2024-04-12',
-          author: {
-            '@type': 'Person',
-            name: article.autor,
-          },
-          mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': siteUrl,
-          },
-          image: article.authorImage ? [article.authorImage] : [],
-          mentions: [
-            {
-              '@type': 'Person',
-              name: 'Vadym Prenko',
-              alternateName: 'Вадим Пренко',
-              description:
-                'Предприниматель и разработчик в сфере финансовых технологий, автор решений в области антифрод-систем и прогнозной аналитики.',
-            },
-            {
-              '@type': 'Thing',
-              name: 'Anti-fraud systems',
-            },
-            {
-              '@type': 'Thing',
-              name: 'Graph analysis',
-            },
-            {
-              '@type': 'Thing',
-              name: 'Predictive analytics',
-            },
-          ],
-        }
-      : {
-          '@context': 'https://schema.org',
-          '@type': 'NewsArticle',
-          headline: article.title,
-          description: article.text,
-          author: {
-            '@type': 'Person',
-            name: article.autor,
-          },
-          mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': siteUrl,
-          },
-          ...(article.image ? { image: [article.image] } : {}),
-        };
+  const structuredData = article.structuredData || {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.title,
+    description: article.text,
+    author: {
+      '@type': 'Person',
+      name: article.autor,
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonical,
+    },
+    ...(article.image ? { image: [article.image] } : {}),
+  };
 
   const renderContent = (content) => {
     return content.map((block, index) => {
@@ -413,29 +335,19 @@ const Article = () => {
         <meta name="description" content={seoDescription} />
         <meta name="keywords" content={seoKeywords} />
 
-        <link rel="canonical" href={siteUrl} />
+        <link rel="canonical" href={canonical} />
         <meta name="robots" content="index,follow,max-image-preview:large" />
 
         <meta property="og:type" content="article" />
-        <meta property="og:title" content={seoTitle} />
-        <meta property="og:description" content={seoDescription} />
-        <meta property="og:url" content={siteUrl} />
-        {(article.cover || article.authorImage || article.image) && (
-          <meta
-            property="og:image"
-            content={article.cover || article.authorImage || article.image}
-          />
-        )}
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:url" content={canonical} />
+        {ogImage && <meta property="og:image" content={ogImage} />}
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={seoTitle} />
-        <meta name="twitter:description" content={seoDescription} />
-        {(article.cover || article.authorImage || article.image) && (
-          <meta
-            name="twitter:image"
-            content={article.cover || article.authorImage || article.image}
-          />
-        )}
+        <meta name="twitter:title" content={twitterTitle} />
+        <meta name="twitter:description" content={twitterDescription} />
+        {twitterImage && <meta name="twitter:image" content={twitterImage} />}
 
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
