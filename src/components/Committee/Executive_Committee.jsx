@@ -14,7 +14,7 @@ import Executive_Committe_9 from "../../images/Committee/Executive_Committee_9.p
 const Executive_CommitteeData = [
   {
     name: 'Стефан Ван Доорслаер',
-    title: 'Председатель Исполнительного и член Совета Директоров',
+    title: 'Председатель Исполнительного комитета и член Совета Директоров',
     title_2: 'Astros Logistics',
     photo: Executive_Committe_1 
   },
