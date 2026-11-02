@@ -3,6 +3,8 @@
   RewriteEngine On
   RewriteBase /
   RewriteRule ^index\.html$ - [L]
+  # /members is a real directory containing the prerendered member profiles.
+  RewriteRule ^members/?$ /members/index.html [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteCond %{REQUEST_FILENAME} !-l

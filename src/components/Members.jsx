@@ -65,7 +65,7 @@ const Members = () => {
       <Breadcrumb currentPage="Члены Ассоциации" />
 
       <div className="members-container wrapper">
-        {Object.entries(data).map(([year, members]) => (
+        {Object.entries(data).sort(([a], [b]) => Number(b) - Number(a)).map(([year, members]) => (
           <div key={year} className="year-block">
             <h2>{year}</h2>
 
@@ -82,7 +82,7 @@ const Members = () => {
               <tbody>
                 {members.map((member, index) => (
                   <tr key={`${year}-${index}`}>
-                    <td>{member.name}</td>
+                    <td>{member.profileUrl ? <a href={member.profileUrl}>{member.name}</a> : member.name}</td>
                     <td>{member.country}</td>
                     <td>{member.company}</td>
                     <td>{member.achievements}</td>

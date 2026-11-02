@@ -1,0 +1,42 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const { JSDOM } = require('jsdom');
+const profile = require('../src/components/artemIvanov.json');
+const build = path.resolve(__dirname, '../build');
+const html = fs.readFileSync(path.join(build, profile.path, 'index.html'), 'utf8');
+const document = new JSDOM(html).window.document;
+const main = document.querySelector('main');
+assert.equal(document.querySelectorAll('h1').length, 1);
+assert.equal(main.querySelector('h1').textContent, profile.name);
+assert.ok(document.title.startsWith('Artem Ivanov'));
+assert.ok(document.querySelector('meta[name="description"]').content.startsWith('Artem Ivanov'));
+assert.ok(main.querySelector('h1').textContent.includes('Artem Ivanov'));
+assert.deepEqual(Array.from(main.querySelectorAll('.member-profile__details p'), p => p.textContent),
+  [...profile.intro, ...profile.sections.flatMap(section => section.paragraphs)]);
+assert.deepEqual(Array.from(main.querySelectorAll('h2'), h => h.textContent), profile.sections.map(s => s.title));
+assert.deepEqual(Array.from(main.querySelectorAll('dd'), dd => dd.textContent), profile.facts.map(f => f[1]));
+assert.equal(document.querySelectorAll('link[rel="canonical"]').length, 1);
+const canonical = document.querySelector('link[rel="canonical"]').href;
+assert.equal(canonical, 'https://alliancecisentrepreneurs.com' + profile.path);
+const graph = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent)['@graph'];
+const person = graph.find(node => node['@type'] === 'Person');
+assert.equal(person.alternateName, 'Artem Ivanov');
+assert.equal(graph.find(node => node['@type'] === 'ProfilePage').mainEntity['@id'], person['@id']);
+assert.equal(person.memberOf.startDate, '2026-05-11');
+assert.equal(graph.some(node => node['@type'] === 'Article'), false);
+const image = main.querySelector('img');
+assert.equal(new URL(image.getAttribute('src'), canonical).href, person.image);
+assert.ok(fs.existsSync(path.join(build, new URL(person.image).pathname)));
+assert.ok(fs.readFileSync(path.join(build, 'sitemap.xml'), 'utf8').includes(canonical));
+for (const link of main.querySelectorAll('a[href^="#"]')) {
+  assert.ok(document.getElementById(link.getAttribute('href').slice(1)));
+}
+const membersDocument = new JSDOM(fs.readFileSync(path.join(build, 'members', 'index.html'), 'utf8')).window.document;
+assert.equal(membersDocument.querySelector('h1').textContent, 'Члены Ассоциации');
+assert.equal(membersDocument.querySelector('.year-block h2').textContent, '2026');
+assert.equal(membersDocument.querySelectorAll('.year-block:first-child tbody tr').length, 9);
+assert.equal(membersDocument.querySelectorAll('a[href="' + profile.path + '"]').length, 1);
+assert.equal(membersDocument.querySelector('.members-table').textContent.includes('Олександр Яковенко'), true);
+assert.ok(fs.readFileSync(path.join(build, '.htaccess'), 'utf8').includes('RewriteRule ^members/?$ /members/index.html [L]'));
+console.log('Profile and members directory checks passed: content, schema, assets, navigation and Apache route.');

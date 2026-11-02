@@ -1,5 +1,29 @@
 # Getting Started with Create React App
 
+## Профиль Артема Иванова
+
+Адрес: `/members/artem-ivanov/`. Текст хранится в `src/components/artemIvanov.json`,
+фото — `src/images/02534.jpg`. Ссылка на профиль размещена в списке членов за 2026 год.
+
+`npm run build` создаёт готовый HTML профиля в `build/members/artem-ivanov/index.html`
+из того же React-компонента, который используется в приложении. Текст, фотография,
+canonical и JSON-LD доступны без выполнения JavaScript. `npm run test:profile`
+проверяет содержимое готового HTML и поисковую разметку.
+
+Сборка также создаёт `build/members/index.html` со списком участников.
+Этот файл обязателен: папка `members` существует из-за вложенных профилей,
+а Apache исключает существующие папки из общего SPA fallback. Без индексного
+файла запрос `/members/` может вернуть 403. Правило в `public/.htaccess`
+направляет `/members` и `/members/` на этот файл. При обновлении хостинга
+загрузите также скрытый файл `build/.htaccess` в корень сайта.
+
+При публикации загрузите весь каталог `build`. Хостинг должен отдавать файл
+`members/artem-ivanov/index.html` по адресу `/members/artem-ivanov/` с HTTP 200
+до применения общего SPA fallback. После публикации проверьте этот адрес
+в Google Search Console и запросите индексацию; sitemap уже содержит профиль.
+Разметка `ProfilePage` / `Person` описывает страницу, но не гарантирует включение
+в режим ИИ Google: https://developers.google.com/search/docs/appearance/ai-features.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

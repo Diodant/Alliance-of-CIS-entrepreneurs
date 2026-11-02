@@ -6,6 +6,7 @@ import MainPage from './components/MainPage';
 import CharterPage from './components/CharterPage';
 import Ethical from './components/Ethical';
 import Members from './components/Members';
+import MemberProfile from './components/MemberProfile';
 import About from './components/About';
 import CommitteeMembers from './components/CommitteeMembers';
 import Executive_Committee from './components/Committee/Executive_Committee';
@@ -50,6 +51,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/charter" element={<CharterPage  />} />
           <Route path="/members" element={<Members />} />
+          <Route path="/members/artem-ivanov" element={<MemberProfile />} />
           <Route path="/ethical" element={<Ethical />} />
           <Route path="/committee" element={<CommitteeMembers />} />
           <Route path="/executive-committee" element={<Executive_Committee />} />

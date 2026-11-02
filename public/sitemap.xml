@@ -13,6 +13,9 @@
   <url>
     <loc>https://alliancecisentrepreneurs.com/members</loc>
   </url>
+  <url>
+    <loc>https://alliancecisentrepreneurs.com/members/artem-ivanov/</loc>
+  </url>
 
   <url>
     <loc>https://alliancecisentrepreneurs.com/committee</loc>
@@ -41,6 +44,10 @@
 
       <url>
     <loc>https://alliancecisentrepreneurs.com/articles/15</loc>
+  </url>
+
+        <url>
+    <loc>https://alliancecisentrepreneurs.com/members/artem-ivanov/</loc>
   </url>
 
 </urlset>
